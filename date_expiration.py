@@ -47,6 +47,8 @@ import calendar
 def add_months(sourcedate, months):
     month = sourcedate.month - 1 + months
     year = sourcedate.year + month // 12
+    print(year)
+    print(sourcedate.year)
     month = month % 12 + 1
     day = min(sourcedate.day, calendar.monthrange(year, month)[1])
     return datetime.datetime(year, month, day)
@@ -105,7 +107,7 @@ class MemState:
 
     def calc_expire(self, event, date, amount):
         if event == "buy" and self.is_date_expired(date):
-            expired_date = datetime.date.today()
+            expired_date = date
         else:
             expired_date = date if self.is_date_expired(date) else self.expired_date
 
@@ -144,20 +146,16 @@ class MemState:
         return 'null' if self.is_expired() else self.expired_date
 
 
-def handle(pre_e, cur_e):
-    pass
-
-
 if __name__ == "__main__":
     member = MemState()
 
     inputs = [
-        {"event": "try", "date": "2019 01-02 12:33:23", "amount": "3d"},
-        {"event": "buy", "date": "2019 04-02 12:33:23", "amount": "3m"},
-        {"event": "try", "date": "2019 05-02 12:33:23", "amount": "3d"},  # 错误事件不能试用
-        {"event": "renew", "date": "2019 07-10 12:33:23", "amount": "1m"},
-        {"event": "renew", "date": "2019 10-01 12:33:23", "amount": "1m"},  # 错误事件不能订阅
-        {"event": "buy", "date": "2019 10-02 12:33:23", "amount": "1m"},
+        {"event": "try", "date": "2018 01-02 12:33:23", "amount": "3d"},
+        {"event": "buy", "date": "2018 04-02 12:33:23", "amount": "3m"},
+        {"event": "try", "date": "2018 05-02 12:33:23", "amount": "3d"},  # 错误事件不能试用
+        {"event": "renew", "date": "2018 07-10 12:33:23", "amount": "1m"},
+        {"event": "renew", "date": "2018 10-01 12:33:23", "amount": "1m"},  # 错误事件不能订阅
+        {"event": "buy", "date": "2018 10-02 12:33:23", "amount": "1y"},
     ]
 
     print("START")
